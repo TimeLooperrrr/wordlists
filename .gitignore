@@ -1,0 +1,5 @@
+# 源词库(60M+)与生成物不入库
+ecdict.csv
+web/data/
+__pycache__/
+*.pyc

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>常用英语单词 10000</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-row">
+    <h1>📖 常用英语单词 10000</h1>
+    <div class="search-wrap">
+      <input id="search" type="search" placeholder="搜索单词或中文释义…" autocomplete="off" spellcheck="false">
+      <span id="count" class="count"></span>
+    </div>
+  </div>
+  <nav id="groups" class="groups" aria-label="分组">
+    <button class="grp active" data-g="0">全部</button>
+    <button class="grp" data-g="1">1–1000</button>
+    <button class="grp" data-g="2">1001–2000</button>
+    <button class="grp" data-g="3">2001–3000</button>
+    <button class="grp" data-g="4">3001–4000</button>
+    <button class="grp" data-g="5">4001–5000</button>
+    <button class="grp" data-g="6">5001–6000</button>
+    <button class="grp" data-g="7">6001–7000</button>
+    <button class="grp" data-g="8">7001–8000</button>
+    <button class="grp" data-g="9">8001–9000</button>
+    <button class="grp" data-g="10">9001–10000</button>
+  </nav>
+  <div class="voice-bar">
+    <label for="voice">音色</label>
+    <select id="voice" title="选择发音音色"></select>
+    <label for="rate">语速</label>
+    <input id="rate" type="range" min="0.5" max="1.5" step="0.05" value="0.7">
+    <span id="rate-val">0.7x</span>
+    <button id="voice-test" type="button" title="用当前音色和语速试听">🔊 试听</button>
+  </div>
+</header>
+
+<main>
+  <ol id="list" class="word-list"></ol>
+  <div id="sentinel" class="sentinel"></div>
+  <p id="empty" class="empty hidden">没有匹配的单词</p>
+</main>
+
+<footer class="site-footer">
+  词序:Google 万亿词频语料库 · 音标/释义:ECDICT 开源词典 · 点击单词可发音
+</footer>
+
+<div id="loadbar" class="loadbar hidden">
+  <div class="loadbar-track"><div id="loadbar-fill" class="loadbar-fill"></div></div>
+  <span id="loadbar-text">加载词库中…</span>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
