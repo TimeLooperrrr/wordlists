@@ -29,3 +29,16 @@ python3 gen_json.py   # words_10000.txt → web/data/*.json(10 个 chunk, 网页
 ## 状态
 
 2026-08-10:迁移后自定位改造(build.py/build2.py/gen_json.py 旧路径已清)。
+
+## WSL Local / Worktree（2026-08-17）
+
+WSL 原生目录：`/home/yhy/workspace/projects/Project-007-wordlists`，使用系统 Python，无第三方依赖。
+
+```bash
+./scripts/setup.sh   # 从已跟踪词表生成 web/data
+./scripts/run.sh
+./scripts/check.sh
+```
+
+Windows 访问：`http://localhost:8095`，默认监听 `127.0.0.1`。Local 保留完整 `ecdict.csv` 与生成数据；Worktree 仅依赖 Git 已跟踪词表并可复现生成网页数据。
+

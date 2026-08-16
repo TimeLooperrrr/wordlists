@@ -1,0 +1,20 @@
+version = 1
+name = "wordlists WSL"
+
+[setup]
+script = "./scripts/setup.sh"
+
+[[actions]]
+name = "Run"
+icon = "run"
+command = "./scripts/run.sh"
+
+[[actions]]
+name = "Check"
+icon = "test"
+command = "./scripts/check.sh"
+
+[[actions]]
+name = "Regenerate Data"
+icon = "build"
+command = "python3 gen_json.py"
