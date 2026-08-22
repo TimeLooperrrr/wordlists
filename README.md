@@ -42,3 +42,10 @@ WSL 原生目录：`/home/yhy/workspace/projects/Project-007-wordlists`，使用
 
 Windows 访问：`http://localhost:8095`，默认监听 `127.0.0.1`。Local 保留完整 `ecdict.csv` 与生成数据；Worktree 仅依赖 Git 已跟踪词表并可复现生成网页数据。
 
+
+## GitHub Pages(2026-08-23)
+
+- 仓库 https://github.com/TimeLooperrrr/wordlists,Pages 地址 https://timelooperrrr.github.io/wordlists/
+- 部署:GitHub Actions 自动(push master → `web/` → Pages),workflow 见 `.github/workflows/pages.yml`
+- 更新词表:改词源后跑 gen_json.py → `git add -A && git commit && git push`,约 1 分钟内自动上线
+- `ecdict.csv`(63M)不入库;`web/data/` 为 Pages 部署数据,已入库
