@@ -187,23 +187,38 @@
     var vTimer = setInterval(function () {
       vTries++;
       var vs = speechSynthesis.getVoices();
-      if (vs && vs.length > 0) clearInterval(vTimer);
-      else if (vTries >= 12) clearInterval(vTimer);
+      if (vs && vs.length > 0) { clearInterval(vTimer); }
+      else if (vTries >= 14) { clearInterval(vTimer); switchToOnline(); } // 7s 仍无音色 -> 在线发音
       refreshVoices();
     }, 500);
     // 部分 Android WebView 须首次用户交互后才暴露 voices
     document.addEventListener("touchstart", function () { refreshVoices(); }, { once: true });
   } else {
-    // 无语音支持(如微信 WebView):隐藏语音栏并提示
-    var vb = document.querySelector(".voice-bar");
-    if (vb) vb.style.display = "none";
-    var tip = document.createElement("p");
-    tip.className = "voice-tip";
-    tip.textContent = "当前浏览器不支持语音合成,请用系统浏览器(Chrome/Safari)打开以获取发音与音色。";
-    tip.style.cssText = "color:#888;font-size:13px;margin:8px 0;";
-    document.querySelector(".site-header").appendChild(tip);
+    switchToOnline(); // 完全不支持(如微信 WebView)
   }
   refreshVoices();
+
+  /* -------- 在线发音降级:无系统语音引擎(如多数安卓 Chrome)时用有道 mp3 -------- */
+  var onlineMode = false;
+  function switchToOnline() {
+    if (onlineMode) return;
+    onlineMode = true;
+    voiceSel.innerHTML = "";
+    [["美音", "1"], ["英音", "2"]].forEach(function (pair) {
+      var opt = document.createElement("option");
+      opt.value = pair[1];
+      opt.textContent = pair[0];
+      voiceSel.appendChild(opt);
+    });
+    var saved = localStorage.getItem("words-voice-online");
+    if (saved === "1" || saved === "2") voiceSel.value = saved;
+    rateEl.disabled = true;
+    var st = document.createElement("p");
+    st.className = "voice-status";
+    st.textContent = "未检测到设备语音引擎,已切换在线发音(有道词典,美音/英音)。";
+    st.style.cssText = "color:#888;font-size:12px;margin:6px 0 0;";
+    document.querySelector(".site-header").appendChild(st);
+  }
 
   function pickVoice() {
     var voices = window.speechSynthesis ? speechSynthesis.getVoices() : [];
@@ -221,6 +236,16 @@
   }
 
   function speak(w) {
+    if (onlineMode) {
+      var t = voiceSel.value || "1";
+      var a = new Audio("https://dict.youdao.com/dictvoice?audio=" + encodeURIComponent(w) + "&type=" + t);
+      a.onerror = function () {
+        var st = document.querySelector(".voice-status");
+        if (st) st.textContent = "发音加载失败,请检查网络。";
+      };
+      a.play();
+      return;
+    }
     if (!("speechSynthesis" in window)) return;
     speechSynthesis.cancel();
     if (speechSynthesis.paused) speechSynthesis.resume(); // iOS:不 resume 会无声
@@ -238,7 +263,7 @@
   rateVal.textContent = parseFloat(rateEl.value).toFixed(2) + "x";
 
   voiceSel.addEventListener("change", function () {
-    localStorage.setItem("words-voice", voiceSel.value);
+    localStorage.setItem(onlineMode ? "words-voice-online" : "words-voice", voiceSel.value);
     speak("Hello, this is a test.");
   });
   rateEl.addEventListener("input", function () {
