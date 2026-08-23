@@ -180,7 +180,29 @@
       }
     }
   }
-  if ("speechSynthesis" in window) speechSynthesis.onvoiceschanged = refreshVoices;
+  if ("speechSynthesis" in window) {
+    speechSynthesis.onvoiceschanged = refreshVoices;
+    // 移动端 voices 异步加载,onvoiceschanged 可能不触发:轮询兜底
+    var vTries = 0;
+    var vTimer = setInterval(function () {
+      vTries++;
+      var vs = speechSynthesis.getVoices();
+      if (vs && vs.length > 0) clearInterval(vTimer);
+      else if (vTries >= 12) clearInterval(vTimer);
+      refreshVoices();
+    }, 500);
+    // 部分 Android WebView 须首次用户交互后才暴露 voices
+    document.addEventListener("touchstart", function () { refreshVoices(); }, { once: true });
+  } else {
+    // 无语音支持(如微信 WebView):隐藏语音栏并提示
+    var vb = document.querySelector(".voice-bar");
+    if (vb) vb.style.display = "none";
+    var tip = document.createElement("p");
+    tip.className = "voice-tip";
+    tip.textContent = "当前浏览器不支持语音合成,请用系统浏览器(Chrome/Safari)打开以获取发音与音色。";
+    tip.style.cssText = "color:#888;font-size:13px;margin:8px 0;";
+    document.querySelector(".site-header").appendChild(tip);
+  }
   refreshVoices();
 
   function pickVoice() {
@@ -201,6 +223,7 @@
   function speak(w) {
     if (!("speechSynthesis" in window)) return;
     speechSynthesis.cancel();
+    if (speechSynthesis.paused) speechSynthesis.resume(); // iOS:不 resume 会无声
     var u = new SpeechSynthesisUtterance(w);
     u.lang = "en-US";
     u.rate = parseFloat(rateEl.value) || 0.65;
