@@ -7,9 +7,10 @@ import re
 import sys
 
 BASE = os.path.dirname(os.path.abspath(__file__))
-SRC = os.path.join(BASE, "ecdict.csv")
-OUT_TXT = os.path.join(BASE, "words_10000.txt")
-OUT_CSV = os.path.join(BASE, "words_10000_anki.csv")
+DATA = os.path.join(BASE, "data")
+SRC = os.path.join(DATA, "ecdict.csv")
+OUT_TXT = os.path.join(DATA, "words_10000.txt")
+OUT_CSV = os.path.join(DATA, "words_10000_anki.csv")
 
 def clean(text):
     if not text:
@@ -84,7 +85,7 @@ def main():
     print(f"  {OUT_TXT}")
     print(f"  {OUT_CSV}")
     print("\n前 20 词预览:")
-    for i, w, p, t in words[:20]:
+    for i, w, p, t, *_ in words[:20]:
         print(f"{i:>5}  {w:<16} {p:<14} {t[:40]}")
 
 if __name__ == "__main__":

@@ -8,10 +8,11 @@ from collections import Counter
 import os
 
 BASE = os.path.dirname(os.path.abspath(__file__))
-GOOGLE = os.path.join(BASE, "google-10000-english.txt")
-ECDICT = os.path.join(BASE, "ecdict.csv")
-OUT_TXT = os.path.join(BASE, "words_10000.txt")
-OUT_CSV = os.path.join(BASE, "words_10000_anki.csv")
+DATA = os.path.join(BASE, "data")
+GOOGLE = os.path.join(DATA, "google-10000-english.txt")
+ECDICT = os.path.join(DATA, "ecdict.csv")
+OUT_TXT = os.path.join(DATA, "words_10000.txt")
+OUT_CSV = os.path.join(DATA, "words_10000_anki.csv")
 
 def clean(text):
     if not text:

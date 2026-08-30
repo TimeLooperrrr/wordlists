@@ -7,7 +7,7 @@
 
 ## 修改边界
 
-- `ecdict.csv` 和 `google-10000-english.txt` 是输入源；生成逻辑优先修改 `build.py`、`build2.py` 或 `gen_json.py`。
+- `data/ecdict.csv` 和 `data/google-10000-english.txt` 是输入源；生成逻辑优先修改 `build.py`、`build2.py` 或 `gen_json.py`。数据与产物文件统一放 `data/`，顶层只留治理文件与脚本。
 - 脚本必须由 `__file__` 自定位，不能写死机器路径。
 - 修改生成逻辑后同步检查文本、Anki CSV 与 `web/data/`，避免只更新其中一种产物。
 

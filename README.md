@@ -11,24 +11,25 @@
 ## 生成流程
 
 ```bash
-python3 build.py      # ecdict.csv → words_10000.txt + words_10000_anki.csv
-python3 gen_json.py   # words_10000.txt → web/data/*.json(10 个 chunk, 网页按组加载)
+python3 build2.py     # data/google-10000-english.txt + data/ecdict.csv → data/words_10000.txt + data/words_10000_anki.csv(线上词序)
+python3 gen_json.py   # data/words_10000.txt → web/data/*.json(10 个 chunk, 网页按组加载)
 ```
 
-脚本自定位(`__file__` 推导),搬目录不用改。build2.py 为 google-10000 合并备选实现。
+脚本自定位(`__file__` 推导),搬目录不用改。线上词表由 build2.py 生成(google-10000 词序);build.py 为 COCA 词频排序的备选实现,产物会覆盖同一对文件,勿混跑。
 
 ## 关键路径
 
 | 内容 | 位置 |
 |---|---|
-| 源词库 | `ecdict.csv` |
-| 生成词表 | `words_10000.txt` / `words_10000_anki.csv` |
+| 源词库 | `data/ecdict.csv`（不入库）、`data/google-10000-english.txt` |
+| 生成词表 | `data/words_10000.txt` / `data/words_10000_anki.csv` / `data/words_10000.zip` |
 | 网页数据 | `web/data/` |
 | 静态根 | `web/` |
 
 ## 状态
 
 2026-08-10:迁移后自定位改造(build.py/build2.py/gen_json.py 旧路径已清)。
+2026-08-30:词表数据文件归入 `data/`,脚本路径同步;build.py 预览循环解包 bug 已修。
 
 ## WSL Local / Worktree（2026-08-17）
 

@@ -5,7 +5,7 @@ import json
 import os
 
 BASE = os.path.dirname(os.path.abspath(__file__))
-SRC = os.path.join(BASE, "words_10000.txt")
+SRC = os.path.join(BASE, "data", "words_10000.txt")
 OUT_DIR = os.path.join(BASE, "web/data")
 
 os.makedirs(OUT_DIR, exist_ok=True)
